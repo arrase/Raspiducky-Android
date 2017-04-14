@@ -20,8 +20,8 @@ public class PayloadAdapter extends ArrayAdapter<File> {
         mResource = resource;
     }
 
-    public PayloadAdapter(Context context, int resource, List<File> zips) {
-        super(context, resource, zips);
+    public PayloadAdapter(Context context, int resource, List<File> payload_files) {
+        super(context, resource, payload_files);
         mResource = resource;
     }
 
