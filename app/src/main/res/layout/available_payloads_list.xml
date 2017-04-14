@@ -20,7 +20,7 @@
             android:text="@string/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cookie_dialog_cancel"
+            android:id="@+id/payloads_dialog_cancel"
             android:layout_weight="1"
             style="@style/Widget.AppCompat.Button.Borderless.Colored" />
 
