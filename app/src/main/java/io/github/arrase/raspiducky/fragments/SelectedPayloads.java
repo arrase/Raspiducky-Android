@@ -32,7 +32,11 @@ public class SelectedPayloads extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO
+                getFragmentManager()
+                        .beginTransaction()
+                        .addToBackStack(null)
+                        .replace(R.id.fragment_container, new AvailablePayloads())
+                        .commit();
             }
         });
 
