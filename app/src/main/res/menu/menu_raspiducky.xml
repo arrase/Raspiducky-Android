@@ -2,9 +2,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="io.github.arrase.raspiducky.RaspiduckyActivity">
+
+    <item
+        android:id="@+id/action_run"
+        android:icon="@android:drawable/ic_media_play"
+        android:title="@string/action_run"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_clear"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="@string/action_clear"
+        app:showAsAction="ifRoom" />
+
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_manage"
         android:title="@string/action_settings"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 </menu>

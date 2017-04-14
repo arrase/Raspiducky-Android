@@ -8,4 +8,6 @@
     <string name="select_a_payload">Select a payload</string>
     <string name="no_payload_available">No payload available</string>
     <string name="btn_close">Close</string>
+    <string name="action_run">Run</string>
+    <string name="action_clear">Clear</string>
 </resources>
