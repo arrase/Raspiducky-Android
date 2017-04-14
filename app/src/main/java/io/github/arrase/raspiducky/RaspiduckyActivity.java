@@ -1,12 +1,15 @@
 package io.github.arrase.raspiducky;
 
 import android.app.FragmentManager;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import io.github.arrase.raspiducky.constants.RaspiduckyConstants;
 import io.github.arrase.raspiducky.dialogs.AddPayLoadDialog;
@@ -18,6 +21,7 @@ import io.github.arrase.raspiducky.providers.PayloadsProvider;
 
 public class RaspiduckyActivity extends AppCompatActivity implements SelectedPayloads.OnAddPayloadListener {
     private FragmentManager mFragmentManager;
+    private BluetoothAdapter mBluetoothAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +93,16 @@ public class RaspiduckyActivity extends AppCompatActivity implements SelectedPay
         switch (id) {
             case R.id.action_settings:
                 mFragmentManager.beginTransaction()
-                    .addToBackStack(null)
-                    .replace(R.id.fragment_container, new RaspiduckySettings())
-                    .commit();
+                        .addToBackStack(null)
+                        .replace(R.id.fragment_container, new RaspiduckySettings())
+                        .commit();
                 return true;
             case R.id.action_run:
+                if (mBluetoothAdapter == null) {
+                    setValidAdapter();
+                } else {
+                    runSelectedPayloads();
+                }
                 return true;
             case R.id.action_clear:
                 getContentResolver().delete(PayloadsProvider.CONTENT_URI, null, null);
@@ -107,5 +116,28 @@ public class RaspiduckyActivity extends AppCompatActivity implements SelectedPay
     public void onAddPayloadCallback() {
         AddPayLoadDialog dialog = new AddPayLoadDialog();
         dialog.show(getSupportFragmentManager(), "AddPayLoadDialog");
+    }
+
+    private void setValidAdapter() {
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(this, R.string.no_bluetooth_available, Toast.LENGTH_LONG).show();
+        } else if (!mBluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, RaspiduckyConstants.REQUEST_ENABLE_BT);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RaspiduckyConstants.REQUEST_ENABLE_BT) {
+            if (resultCode == RESULT_OK) {
+                runSelectedPayloads();
+            }
+        }
+    }
+
+    private void runSelectedPayloads() {
+        // TODO
     }
 }

@@ -10,4 +10,6 @@
     <string name="btn_close">Close</string>
     <string name="action_run">Run</string>
     <string name="action_clear">Clear</string>
+    <string name="no_bluetooth_available">No Bluetooth device available</string>
+    <string name="running_payloads">Running payloads....</string>
 </resources>
