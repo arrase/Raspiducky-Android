@@ -13,6 +13,8 @@ import io.github.arrase.raspiducky.R;
 
 public class SelectedPayloads extends Fragment {
     private FloatingActionButton mFab;
+    private Context mContext;
+    private OnAddPayloadListener mListener;
 
     public SelectedPayloads() {
 
@@ -21,6 +23,14 @@ public class SelectedPayloads extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        mContext = context;
+
+        if (context instanceof OnAddPayloadListener) {
+            mListener = (OnAddPayloadListener) mContext;
+        } else {
+            throw new RuntimeException(mContext.toString()
+                    + " must implement OnAddPayloadListener");
+        }
     }
 
     @Nullable
@@ -32,10 +42,14 @@ public class SelectedPayloads extends Fragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO
+                mListener.onAddPayloadCallback();
             }
         });
 
         return view;
+    }
+
+    public interface OnAddPayloadListener {
+        void onAddPayloadCallback();
     }
 }

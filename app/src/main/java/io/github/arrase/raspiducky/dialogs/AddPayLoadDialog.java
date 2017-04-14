@@ -26,7 +26,11 @@ import io.github.arrase.raspiducky.storage.ExternalStorage;
 
 
 public class AddPayLoadDialog extends DialogFragment {
+    public AddPayLoadDialog() {
+    }
+
     @NonNull
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder cookieBackupDialog = new AlertDialog.Builder(getActivity());

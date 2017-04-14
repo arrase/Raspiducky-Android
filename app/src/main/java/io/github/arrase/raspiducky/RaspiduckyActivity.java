@@ -7,9 +7,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import io.github.arrase.raspiducky.dialogs.AddPayLoadDialog;
 import io.github.arrase.raspiducky.fragments.SelectedPayloads;
 
-public class RaspiduckyActivity extends AppCompatActivity {
+public class RaspiduckyActivity extends AppCompatActivity implements SelectedPayloads.OnAddPayloadListener {
     private FragmentManager mFragmentManager;
 
     @Override
@@ -57,5 +58,11 @@ public class RaspiduckyActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onAddPayloadCallback() {
+        AddPayLoadDialog dialog = new AddPayLoadDialog();
+        dialog.show(getSupportFragmentManager(), "AddPayLoadDialog");
     }
 }
