@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 import io.github.arrase.raspiducky.R;
 
 public class AvailablePayloads extends Fragment {
-    public AvailablePayloads(){
+    public AvailablePayloads() {
 
     }
 
-     @Override
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
     }
@@ -25,7 +25,6 @@ public class AvailablePayloads extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.available_payloads_list, container, false);
-
 
 
         return view;
