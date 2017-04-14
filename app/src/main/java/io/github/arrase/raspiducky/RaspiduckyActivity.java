@@ -11,8 +11,10 @@ import android.view.MenuItem;
 import io.github.arrase.raspiducky.constants.RaspiduckyConstants;
 import io.github.arrase.raspiducky.dialogs.AddPayLoadDialog;
 import io.github.arrase.raspiducky.fragments.LockedByPermissions;
+import io.github.arrase.raspiducky.fragments.RaspiduckySettings;
 import io.github.arrase.raspiducky.fragments.SelectedPayloads;
 import io.github.arrase.raspiducky.permissions.PermissionManager;
+import io.github.arrase.raspiducky.providers.PayloadsProvider;
 
 public class RaspiduckyActivity extends AppCompatActivity implements SelectedPayloads.OnAddPayloadListener {
     private FragmentManager mFragmentManager;
@@ -86,10 +88,15 @@ public class RaspiduckyActivity extends AppCompatActivity implements SelectedPay
         //noinspection SimplifiableIfStatement
         switch (id) {
             case R.id.action_settings:
+                mFragmentManager.beginTransaction()
+                    .addToBackStack(null)
+                    .replace(R.id.fragment_container, new RaspiduckySettings())
+                    .commit();
                 return true;
             case R.id.action_run:
                 return true;
             case R.id.action_clear:
+                getContentResolver().delete(PayloadsProvider.CONTENT_URI, null, null);
                 return true;
         }
 

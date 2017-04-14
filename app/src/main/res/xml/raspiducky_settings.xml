@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="UUID"
+        android:key="rfcomm_uuid"
+        android:defaultValue="94f39d29-7d6d-437d-973b-fba39e49d4ee" />
+</PreferenceScreen>
