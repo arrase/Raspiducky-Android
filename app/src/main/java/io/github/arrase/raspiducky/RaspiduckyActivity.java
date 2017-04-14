@@ -1,14 +1,18 @@
 package io.github.arrase.raspiducky;
 
 import android.app.FragmentManager;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import io.github.arrase.raspiducky.constants.RaspiduckyConstants;
 import io.github.arrase.raspiducky.dialogs.AddPayLoadDialog;
+import io.github.arrase.raspiducky.fragments.LockedByPermissions;
 import io.github.arrase.raspiducky.fragments.SelectedPayloads;
+import io.github.arrase.raspiducky.permissions.PermissionManager;
 
 public class RaspiduckyActivity extends AppCompatActivity implements SelectedPayloads.OnAddPayloadListener {
     private FragmentManager mFragmentManager;
@@ -25,10 +29,37 @@ public class RaspiduckyActivity extends AppCompatActivity implements SelectedPay
         // Do not overlapping fragments.
         if (savedInstanceState != null) return;
 
-        mFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, new SelectedPayloads())
-                .commit();
+        if (PermissionManager.isLollipopOrHigher() && !PermissionManager.hasExternalWritePermission(this)) {
+            PermissionManager.requestExternalWritePermissions(this, RaspiduckyConstants.REQUEST_WRITE_STORAGE);
+        } else {
+            mFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, new SelectedPayloads())
+                    .commit();
+        }
     }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode, String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case RaspiduckyConstants.REQUEST_WRITE_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, new SelectedPayloads())
+                            .commit();
+                } else {
+                    // Request rationale
+                    PermissionManager.requestExternalWritePermissions(this, RaspiduckyConstants.REQUEST_WRITE_STORAGE);
+                    mFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, new LockedByPermissions())
+                            .commit();
+                }
+                break;
+            }
+        }
+    }
+
 
     @Override
     public void onBackPressed() {
