@@ -20,6 +20,9 @@ import io.github.arrase.raspiducky.permissions.PermissionManager;
 import io.github.arrase.raspiducky.providers.PayloadsProvider;
 
 public class RaspiduckyActivity extends AppCompatActivity implements SelectedPayloads.OnAddPayloadListener {
+
+    private static boolean RESUME_BT = false;
+
     private FragmentManager mFragmentManager;
     private BluetoothAdapter mBluetoothAdapter = null;
 
@@ -66,6 +69,14 @@ public class RaspiduckyActivity extends AppCompatActivity implements SelectedPay
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (RESUME_BT) {
+            RESUME_BT = false;
+            runSelectedPayloads();
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -132,12 +143,12 @@ public class RaspiduckyActivity extends AppCompatActivity implements SelectedPay
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == RaspiduckyConstants.REQUEST_ENABLE_BT) {
             if (resultCode == RESULT_OK) {
-                runSelectedPayloads();
+                RESUME_BT = true;
             }
         }
     }
 
     private void runSelectedPayloads() {
-        // TODO
+        Toast.makeText(this, R.string.running_payloads, Toast.LENGTH_LONG).show();
     }
 }
